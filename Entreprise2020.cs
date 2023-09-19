@@ -52,7 +52,7 @@ namespace clientSQLEntreprise
                 {
                     connection.Close();
                 }
-            };
+            }
         }
 
         /// <summary>
@@ -560,6 +560,60 @@ namespace clientSQLEntreprise
                 // Traitement des résultats
                 int retour = Convert.ToInt32(command.Parameters["@ReturnVal"].Value);
                 return retour;
+            }
+            catch (Exception e) { throw e; }
+            finally
+            {
+                if (connection != null)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Méthode permettant de supprimer un produit de la table P
+        /// </summary>
+        /// <param name="reference">numéro NP du produit</param>
+        /// <returns>true or false</returns>
+        public bool SupprimerProduit(int reference)
+        {
+            // initialisation
+            SqlConnection connection = null;
+            SqlCommand command = null;
+            try
+            {
+                // instanciation
+                connection = new SqlConnection();
+                command = new SqlCommand();
+
+                // Connexion à la base
+                connection.ConnectionString = this.chaineConnexion;
+                connection.Open();
+
+                SqlTransaction transaction;
+                transaction = connection.BeginTransaction();
+                try
+                {
+                    // Exécution des requêtes
+                    command.Connection = connection;
+                    command.Transaction = transaction;
+
+                    command.CommandText = "DELETE FROM PUF WHERE NP = " + reference.ToString();
+                    if (command.ExecuteNonQuery() == -1)
+                    {
+                        throw new Exception("Erreur pendant la suppression des lignes de la table PUF");
+                    }
+                    command.CommandText = "DELETE FROM P WHERE NP = " + reference.ToString();
+                    if (command.ExecuteNonQuery() != 1)
+                    {
+                        throw new Exception("Erreur pendant la suppression des lignes de la table P");
+                    }
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception e) { transaction.Rollback(); throw e; }
             }
             catch (Exception e) { throw e; }
             finally

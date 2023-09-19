@@ -108,11 +108,22 @@ namespace clientSQLEntreprise
                 Usine usinePUFProc = new Usine(8, "usine1", "Evreux");
                 if (entreprise.AjouterPUF(produitPUFProc, fournisseurPUFProc, usinePUFProc, 4000) == 0)
                 {
-                    Console.WriteLine("Traction réussie");
+                    Console.WriteLine("Transaction réussie\n");
                 }
                 else
                 {
-                    Console.WriteLine("Tranction echouée");
+                    Console.WriteLine("Transaction echouée\n");
+                }
+
+                // Test de la méthode SupprimerProduit(int reference)
+                Console.WriteLine("*** TEST DE LA METHODE SupprimerProduit(int reference) ***");
+                if (entreprise.SupprimerProduit(9) == true)
+                {
+                    Console.WriteLine("Supression réussie \n");
+                }
+                else
+                {
+                    Console.WriteLine("Supression échouée \n");
                 }
             }
             catch (Exception e) { Console.WriteLine(e.Message); }
