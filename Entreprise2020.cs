@@ -6,11 +6,20 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 
 namespace clientSQLEntreprise
-{
+{   /// <summary>
+/// Classe permettant la connexion et la gestion de la BdD du même nom
+/// </summary>
     class Entreprise2020
-    {
+    {   /// <summary>
+    /// chaine contenant le chaîne de connexion à la base de donnée
+    /// </summary>
         private string chaineConnexion;
 
+        /// <summary>
+        /// Méthode permettant d'ajouter un produit à la table P
+        /// </summary>
+        /// <param name="p">Produit à ajouter</param>
+        /// <returns>Le nombre de ligne affectés</returns>
         public int AjouterProduit(Produit p)
         {
             // initialisation
@@ -45,6 +54,14 @@ namespace clientSQLEntreprise
                 }
             };
         }
+
+        /// <summary>
+        /// Constructeur de la classe Entreprise2020
+        /// </summary>
+        /// <param name="hote">Machine hôte de la base</param>
+        /// <param name="BdD">Base à utiliser</param>
+        /// <param name="Utilisateur">Utilisateur de la BdD</param>
+        /// <param name="MdP">MdP de l'utilisateur</param>
         public Entreprise2020(string hote, string BdD, string Utilisateur, string MdP)
         {
             SqlConnection connection = null;
@@ -76,6 +93,7 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
         /// <summary>
         /// Méthode qui permet de lister les produits de la table P
         /// </summary>
@@ -132,6 +150,11 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Méthode donnant le nom des colonnes de la table Produit
+        /// </summary>
+        /// <returns>Une liste string</returns>
         public List<String> NomColonneProduit()
         {
             // déclaration de 3 objets nécessaires
@@ -184,6 +207,11 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Méthode permettant de connaître le NP max de la table P
+        /// </summary>
+        /// <returns>Le NP max</returns>
         public int NPMax()
         {
             // initialisation
@@ -236,6 +264,11 @@ namespace clientSQLEntreprise
                 }            
             }
         }
+
+        /// <summary>
+        /// Méthode permettant de connaître le NF max de la table F
+        /// </summary>
+        /// <returns>Le NF max</returns>
         public int NFMax()
         {
             // initialisation
@@ -288,6 +321,11 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Méthode permettant de connaître le NU max de la table U
+        /// </summary>
+        /// <returns>Le NU max</returns>
         public int NUMax()
         {
             // initialisation
@@ -340,6 +378,12 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Méthode permettant de savoir le nombre de produit vendu d'une certaine référence
+        /// </summary>
+        /// <param name="reference">La référence du produit</param>
+        /// <returns>Un objet quantiteLivreParRefResultat</returns>
         public quantiteLivreParRefResultat QuantiteLivreeParReference(int reference)
         {
             // initialisation
@@ -391,6 +435,15 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Méthode permettant d'ajouter une ligne à la table PUF, en ajoutant le produit, le fournisseur et l'usine dans leur table respective
+        /// </summary>
+        /// <param name="p">Produit à ajouter</param>
+        /// <param name="f">Fournisseur à ajouter</param>
+        /// <param name="u">Usine à ajouter</param>
+        /// <param name="quantite">Quantité à ajouter</param>
+        /// <returns>0 si tout se passe bien</returns>
         public int AjouterPUF(Produit p, Fournisseur f, Usine u, int quantite)
         {
             // déclaration de 3 objets nécessaires
@@ -457,6 +510,15 @@ namespace clientSQLEntreprise
                 }
             }
         }
+
+        /// <summary>
+        /// Ajoute un produit, un fournisseur, une usine et une entrée dans la table PUF via une procédure
+        /// </summary>
+        /// <param name="p">Produit à ajouter</param>
+        /// <param name="f">Fournisseur à ajouter</param>
+        /// <param name="u">Usine à ajouter</param>
+        /// <param name="quantite">Quantité vendu</param>
+        /// <returns>La valeur de retour de la procédure</returns>
         public int AjouterPUFProc(Produit p, Fournisseur f, Usine u, int quantite)
         {
             // initialisation
