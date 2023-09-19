@@ -599,10 +599,14 @@ namespace clientSQLEntreprise
                     command.Connection = connection;
                     command.Transaction = transaction;
 
-                    command.CommandText = "DELETE FROM PUF WHERE NP = " + reference.ToString();
-                    if (command.ExecuteNonQuery() == -1)
+                    command.CommandText = "SELECT * FROM PUF WHERE NP = " + reference.ToString();
+                    if (command.ExecuteNonQuery() != 0)
                     {
-                        throw new Exception("Erreur pendant la suppression des lignes de la table PUF");
+                        command.CommandText = "DELETE FROM PUF WHERE NP = " + reference.ToString();
+                        if (command.ExecuteNonQuery() == -1)
+                        {
+                            throw new Exception("Erreur pendant la suppression des lignes de la table PUF");
+                        }
                     }
                     command.CommandText = "DELETE FROM P WHERE NP = " + reference.ToString();
                     if (command.ExecuteNonQuery() != 1)
